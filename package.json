@@ -1,0 +1,28 @@
+{
+  "name": "kumander",
+  "version": "0.0.1",
+  "description": "Simple, Express-style CLI builder for Node",
+  "main": "kumander.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nedpals/kumander.git"
+  },
+  "keywords": [
+    "cli",
+    "command-line",
+    "cli",
+    "builder"
+  ],
+  "author": "Ned Palacios",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nedpals/kumander/issues"
+  },
+  "homepage": "https://github.com/nedpals/kumander#readme",
+  "dependencies": {
+    "@types/node": "^10.12.18"
+  }
+}
