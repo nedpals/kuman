@@ -53,12 +53,12 @@ $ tsc --project ./tsconfig.json
 ```
 
 ### Roadmap
-- [] Shorthand option
-- [] Middleware Support(?)
-- [] JSDoc comments
-- [] `--help` generation
-- [] Error handling
-- [] Tests
+- [ ] Shorthand option
+- [ ] Middleware Support(?)
+- [ ] JSDoc comments
+- [ ] `--help` generation
+- [ ] Error handling
+- [ ] Tests
 
 ### Contribute
 1. Fork / Clone this repo. (`git clone https://github.com/nedpals/kumander.git`)
