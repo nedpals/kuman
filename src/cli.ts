@@ -22,10 +22,58 @@ export const add = (type: string, name: string, cb: any, state: any) => {
 export function runCli(argv: Array<string>, state: any) {    
     state.setArgs({ ...state.args, ...parseArgs(argv) });
 
-    const { commands, options, args } = state;
-    const selectedCommand = commands.find(command => command.name === args.command);
+    add("option", "help", () => {
+        generateHelp(state);
+    }, {
+        shorthand: {
+            value: "h",
+            uppercase: false
+        },
+        description: "Displays the list of commands and options"
+    },state);
+    if (typeof(currentCommand) !== "undefined" && Object.keys(args.options).length === 0) {
+        console.error("Command not found");
+        generateHelp(state);
+    }
+
+    if (argv.length === 0 && cliInfo.defaultCommand.length === 0)
+        generateHelp(state)
 
     Object.keys(options).map(optName => options[optName](args.options[optName]));
 
     selectedCommand.run();
 };
+function generateHelp(state: any) {
+    const cli_name = cliInfo.name.replace(" ", "_").toLowerCase()
+
+    console.log(cliInfo.name);
+    console.log(cliInfo.description);
+    
+
+    console.log(`\nUsage: ${cli_name} [options]`)
+
+    console.log("\nOptions:\n");
+    
+    Object.keys(state.options).sort((a, b) => {
+        if (a.length > b.length)
+            return 0;
+        
+        if (a.length < b.length)
+            return 1;
+    }).map(option => {
+        console.log(`--${option}        ${state.options[option].description}`);
+
+        if (state.options[option].shorthand.length !== 0) {
+            console.log(`-${state.options[option].shorthand}        Shortcut of '--${option}'`);
+        }
+    });
+
+    console.log("\nCommands:\n");
+    state.commands.map(command => {
+        if (command.hasOwnProperty('parent')) {
+            console.log(`${command.name}${command.argument && ('=' + command.argument.toUpperCase())}            Redirects to '${command.parent}' command.`);
+        } else {
+            console.log(`${command.name}${command.argument && ('=' + command.argument.toUpperCase())}            ${command.description}`);
+        }
+    });
+}

@@ -56,7 +56,7 @@ $ tsc --project ./tsconfig.json
 - [ ] Shorthand option
 - [ ] Middleware Support(?)
 - [ ] JSDoc comments
-- [ ] `--help` generation
+- [x] `--help` generation
 - [ ] Error handling
 - [ ] Tests
 
