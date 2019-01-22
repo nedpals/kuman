@@ -22,6 +22,16 @@ export const add = (type: string, name: string, cb: any, state: any) => {
 export function runCli(argv: Array<string>, state: any) {    
     state.setArgs({ ...state.args, ...parseArgs(argv) });
 
+    add("option", "version", () => {
+        console.log(cliInfo.version);
+    }, {
+        shorthand: {
+            value: "v",
+            uppercase: false
+        },
+        description: "Displays CLI version"
+    }, state);
+
     add("option", "help", () => {
         generateHelp(state);
     }, {
