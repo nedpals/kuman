@@ -31,6 +31,17 @@ export function runCli(argv: Array<string>, state: any) {
         },
         description: "Displays the list of commands and options"
     },state);
+
+    if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires'))
+        currentCommand.requires.split(", ").map(option => {
+            if (typeof Object.keys(state.args.options).find(o => o === option) === "undefined") {
+                console.error("Missing option: " + option);
+            }
+        });
+
+    if (typeof(currentCommand) !== "undefined")
+        currentCommand.run();
+    
     if (typeof(currentCommand) !== "undefined" && Object.keys(args.options).length === 0) {
         console.error("Command not found");
         generateHelp(state);
