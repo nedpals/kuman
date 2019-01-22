@@ -1,6 +1,12 @@
 import { parseArgs } from "./parser";
 import { addCommand } from "./command";
 import { addOption } from "./option";
+export const cliInfo = {
+    version: '',
+    name: '',
+    description: '',
+    defaultCommand: ''
+};
 
 export const CLIState = function () : void {
     this.commands = [];
@@ -60,7 +66,9 @@ export function runCli(argv: Array<string>, state: any) {
     if (argv.length === 0 && cliInfo.defaultCommand.length === 0)
         generateHelp(state)
 
-    Object.keys(options).map(optName => options[optName](args.options[optName]));
+    if ((typeof(args.command) === "undefined" && Object.keys(args.options).length === 0) && cliInfo.defaultCommand.length !== 0)
+        defaultCommand.run();
+};
 
     selectedCommand.run();
 };
