@@ -17,11 +17,11 @@ export const CLIState = function () : void {
     };
 };
 
-export const add = (type: string, name: string, cb: any, state: any) => {
+export const add = (type: string, name: string, cb: any, options: object = {}, state: any) => {
     if (type === "command") {
-        addCommand(name, cb, state);
+        addCommand(name, cb, options, state);
     } else {
-        addOption(name, cb, state);
+        addOption(name, cb, options, state);
     }
 };
 
