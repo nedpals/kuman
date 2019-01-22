@@ -28,6 +28,11 @@ export const add = (type: string, name: string, cb: any, options: object = {}, s
 export function runCli(argv: Array<string>, state: any) {    
     state.setArgs({ ...state.args, ...parseArgs(argv) });
 
+    const { options, args } = state;
+    const getCmd = (name: string) => getCommand(name, state);
+    const currentCommand = getCmd(args.command);
+    const defaultCommand = getCmd(cliInfo.defaultCommand);
+
     add("option", "version", () => {
         console.log(cliInfo.version);
     }, {
@@ -70,8 +75,32 @@ export function runCli(argv: Array<string>, state: any) {
         defaultCommand.run();
 };
 
-    selectedCommand.run();
+function getCommand(name: string, state: any) {
+    const { commands } = state;
+    const getShorthandCommand = commands.find(command => command.shorthand === name);
+    const getFullCommand = commands.find(command => command.name === name);
+
+    return getFullCommand || getShorthandCommand;
+}
+
+function getOption(name: string, state: any) {
+    const { options } = state;
+    let foundOption = Object.keys(options).map(optionName => {
+        const getShorthandOption = () => {
+            if (typeof options[optionName].shorthand === "object") {
+                return options[optionName].shorthand.value === name ? options[optionName] : undefined;
+            } else {
+                return options[optionName].shorthand === name ? options[optionName] : undefined;
+            }
 };
+        const getFullOption = optionName === name ? options[optionName] : undefined;
+
+        return getFullOption || getShorthandOption();
+    }).filter(el => el !== undefined)[0];
+
+    return foundOption;
+}
+
 function generateHelp(state: any) {
     const cli_name = cliInfo.name.replace(" ", "_").toLowerCase()
 
