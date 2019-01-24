@@ -119,19 +119,22 @@ function generateHelp(state: any) {
         if (a.length < b.length)
             return 1;
     }).map(option => {
-        console.log(`--${option}        ${state.options[option].description}`);
+        let name = `--${option}`;
+        
+        console.log(`${name.padEnd(30, " ")}${state.options[option].description}`);
 
         if (state.options[option].shorthand.length !== 0) {
-            console.log(`-${state.options[option].shorthand}        Shortcut of '--${option}'`);
+            let shorthand = `-${typeof state.options[option].shorthand === 'object' ? state.options[option].shorthand.value : state.options[option].shorthand}`;
+            console.log(`${shorthand.padEnd(30, " ")}Shortcut of '${name}'`);
         }
     });
 
     console.log("\nCommands:\n");
+
     state.commands.map(command => {
-        if (command.hasOwnProperty('parent')) {
-            console.log(`${command.name}${command.argument && ('=' + command.argument.toUpperCase())}            Redirects to '${command.parent}' command.`);
-        } else {
-            console.log(`${command.name}${command.argument && ('=' + command.argument.toUpperCase())}            ${command.description}`);
-        }
+        let name = `${command.name}${command.argument && ('=' + command.argument.toUpperCase())}`;
+        let description = command.hasOwnProperty('parent') ? `Redirects to '${command.parent}' command.` : command.description;
+
+        console.log(name.padEnd(30, " ") + description);
     });
 }
