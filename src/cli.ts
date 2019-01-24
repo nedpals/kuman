@@ -56,6 +56,7 @@ export function runCli(argv: Array<string>, state: any) {
             value: "v",
             uppercase: false
         },
+        asCommand: true,
         description: "Displays CLI version"
     }, state);
 
@@ -66,7 +67,10 @@ export function runCli(argv: Array<string>, state: any) {
             value: "h",
             uppercase: false
         },
+        asCommand: true,
         description: "Displays the list of commands and options"
+    }, state);
+
     // Execute shorthand
     Object.keys(shorthandOptions).map(optName => {
         let currentArgOption = args.options[optName];
