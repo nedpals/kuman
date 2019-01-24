@@ -66,7 +66,37 @@ export function runCli(argv: Array<string>, state: any) {
             uppercase: false
         },
         description: "Displays the list of commands and options"
-    },state);
+    // Execute shorthand
+    Object.keys(shorthandOptions).map(optName => {
+        let currentArgOption = args.options[optName];
+
+        if (typeof currentArgOption !== "undefined") {
+            let option = getOption(optName, state);
+
+            if (option.asCommand === true) {
+                option.cb(currentArgOption);
+            } else {
+                args.options[shorthandOptions[optName]] = typeof option.cb !== "undefined" ? option.cb(currentArgOption) : '';
+
+                delete args.options[optName];
+            }
+
+        }
+
+    })
+
+    Object.keys(options).map(optName => {
+        if (typeof args.options[optName] !== "undefined") {
+            let option = getOption(optName, state);
+
+            if (option.asCommand === true) {
+                option.cb(args.options[optName]);
+                showHelp = false;
+            } else {
+                args.options[optName] = typeof option.cb !== "undefined" ? option.cb(args.options[optName]) : '';
+            }
+        }
+    });
 
     if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires'))
         currentCommand.requires.split(", ").map(option => {
@@ -99,19 +129,11 @@ function getCommand(name: string, state: any) {
 }
 
 function getOption(name: string, state: any) {
-    const { options } = state;
-    let foundOption = Object.keys(options).map(optionName => {
-        const getShorthandOption = () => {
-            if (typeof options[optionName].shorthand === "object") {
-                return options[optionName].shorthand.value === name ? options[optionName] : undefined;
-            } else {
-                return options[optionName].shorthand === name ? options[optionName] : undefined;
-            }
-};
-        const getFullOption = optionName === name ? options[optionName] : undefined;
-
-        return getFullOption || getShorthandOption();
-    }).filter(el => el !== undefined)[0];
+    const { options, shorthandOptions } = state;
+    let foundOption = Object.keys(shorthandOptions).map(optionName => {
+            const currentShorthand = shorthandOptions[optionName];
+            return optionName === name && options[currentShorthand];
+        }).concat(Object.keys(options).map(optionName => optionName === name && options[optionName])).filter(el => el !== false)[0];
 
     return foundOption;
 }
@@ -137,11 +159,11 @@ function generateHelp(state: any) {
         let name = `--${option}`;
         
         console.log(`${name.padEnd(30, " ")}${state.options[option].description}`);
+    });
 
-        if (state.options[option].shorthand.length !== 0) {
-            let shorthand = `-${typeof state.options[option].shorthand === 'object' ? state.options[option].shorthand.value : state.options[option].shorthand}`;
-            console.log(`${shorthand.padEnd(30, " ")}Shortcut of '${name}'`);
-        }
+    Object.keys(state.shorthandOptions).map(option => {
+        let shorthand = `-${option}`;
+        console.log(`${shorthand.padEnd(30, " ")}Shortcut of '${state.shorthandOptions[option]}'`);
     });
 
     console.log("\nCommands:\n");

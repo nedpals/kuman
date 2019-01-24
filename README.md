@@ -53,8 +53,7 @@ $ tsc --project ./tsconfig.json
 ```
 
 ### Roadmap
-- [ ] Shorthand option
-- [ ] Middleware Support(?)
+- [x] Shorthand option support
 - [ ] JSDoc comments
 - [x] `--help` generation
 - [x] Error handling
