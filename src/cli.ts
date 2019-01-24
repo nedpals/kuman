@@ -10,6 +10,7 @@ export const cliInfo = {
 
 export const CLIState = function () : void {
     this.commands = [];
+    this.shorthandOptions = {};
     this.options = {};
     this.args = {};
     this.setArgs = (obj: object) => {
