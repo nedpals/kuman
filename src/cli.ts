@@ -28,10 +28,25 @@ export const add = (type: string, name: string, cb: any, options: object = {}, s
 export function runCli(argv: Array<string>, state: any) {    
     state.setArgs({ ...state.args, ...parseArgs(argv) });
 
-    const { options, args } = state;
+    let execute = true;
+    let errorMsg = "";
+    let showHelp = false;
+
+    const { options, args, shorthandOptions } = state;
     const getCmd = (name: string) => getCommand(name, state);
     const currentCommand = getCmd(args.command);
     const defaultCommand = getCmd(cliInfo.defaultCommand);
+    const runCommand = () => {
+        if (execute && typeof(currentCommand) !== "undefined") {
+            currentCommand.run();
+        } else {
+            if (errorMsg.length !== 0)
+                console.error(errorMsg);
+
+            if (showHelp)
+                generateHelp(state);
+        }
+    };
 
     add("option", "version", () => {
         console.log(cliInfo.version);
@@ -55,24 +70,24 @@ export function runCli(argv: Array<string>, state: any) {
 
     if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires'))
         currentCommand.requires.split(", ").map(option => {
-            if (typeof Object.keys(state.args.options).find(o => o === option) === "undefined") {
-                console.error("Missing option: " + option);
+            if (typeof getOption(option, state) === "undefined") {
+                errorMsg = "Missing option: " + option;
+                execute = false;
             }
         });
 
-    if (typeof(currentCommand) !== "undefined")
-        currentCommand.run();
+    if (typeof(currentCommand) === "undefined" && typeof(args.command) !== "undefined")
+        errorMsg = "Command not found";
     
-    if (typeof(currentCommand) !== "undefined" && Object.keys(args.options).length === 0) {
-        console.error("Command not found");
-        generateHelp(state);
+    if (argv.length === 0) {
+        showHelp = true;
+        execute = false;
     }
-
-    if (argv.length === 0 && cliInfo.defaultCommand.length === 0)
-        generateHelp(state)
 
     if ((typeof(args.command) === "undefined" && Object.keys(args.options).length === 0) && cliInfo.defaultCommand.length !== 0)
         defaultCommand.run();
+
+    runCommand();
 };
 
 function getCommand(name: string, state: any) {
