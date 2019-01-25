@@ -1,6 +1,11 @@
 import { parseArgs } from "./parser";
 import { addCommand } from "./command";
 import { addOption } from "./option";
+
+/**
+ * CLI Instance's settings.
+ * @type {{ version: string, name: string, description: string, defaultCommand: string }}
+ */
 export const cliInfo = {
     version: '',
     name: '',
@@ -8,6 +13,9 @@ export const cliInfo = {
     defaultCommand: ''
 };
 
+/**
+ * Create a new CLI state instance.
+ */
 export const CLIState = function () : void {
     this.commands = [];
     this.shorthandOptions = {};
@@ -18,6 +26,14 @@ export const CLIState = function () : void {
     };
 };
 
+/**
+ * Add's option or command in an instance.
+ * @param type 
+ * @param name 
+ * @param cb 
+ * @param options 
+ * @param state 
+ */
 export const add = (type: string, name: string, cb: any, options: object = {}, state: any) => {
     if (type === "command") {
         addCommand(name, cb, options, state);
@@ -26,6 +42,11 @@ export const add = (type: string, name: string, cb: any, options: object = {}, s
     }
 };
 
+/**
+ * Run the instance.
+ * @param argv ARGV array
+ * @param state CLI State to be used
+ */
 export function runCli(argv: Array<string>, state: any) {    
     state.setArgs({ ...state.args, ...parseArgs(argv) });
 
@@ -143,6 +164,10 @@ function getOption(name: string, state: any) {
     return foundOption;
 }
 
+/**
+ * Generate help from the CLI State
+ * @param state CLI state to be use
+ */
 function generateHelp(state: any) {
     const cli_name = cliInfo.name.replace(" ", "_").toLowerCase()
 

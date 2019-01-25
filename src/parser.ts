@@ -1,3 +1,7 @@
+/**
+ * Parses commands, options, and unknown arguments from the ARGV array.
+ * @param argv ARGV to be used
+ */
 export function parseArgs (argv: string[]) {
     if (argv.length === 0)
         return { command: '', options: {}, unknown: [] };

@@ -1,6 +1,10 @@
 import { CLIState, add, runCli, cliInfo } from "./src/cli";
 import { CommandCallback } from "./src/command";
 import { OptionCallback } from "./src/option";
+
+/**
+ * Initialize a new CLI instance.
+ */
 export function CLI() {
     const state = new CLIState();
 
