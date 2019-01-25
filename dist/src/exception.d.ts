@@ -1,1 +1,1 @@
-declare function raiseException(): void;
+declare function raiseException(message: any): void;
