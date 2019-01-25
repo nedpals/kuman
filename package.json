@@ -2,7 +2,8 @@
   "name": "kumander",
   "version": "0.0.2",
   "description": "Simple, Express-style CLI builder for Node",
-  "main": "kumander.js",
+  "main": "./dist/kumander.js",
+  "types": "./dist/kumander.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,11 +11,12 @@
     "type": "git",
     "url": "git+https://github.com/nedpals/kumander.git"
   },
-  "keywords": [
+  "keywords": [ 
     "cli",
     "command-line",
-    "cli",
-    "builder"
+    "typescript",
+    "cli-builder",
+    "cli-framework"
   ],
   "author": "Ned Palacios",
   "license": "MIT",
