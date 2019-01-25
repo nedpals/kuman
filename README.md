@@ -22,8 +22,7 @@ const cli = CLI();
 const kumander = require("kumander/dist/kumander");
 const cli = kumander.CLI();
 ```
-- Add the following commands and options
-### Plain Javascript / Typescript
+- Start using it by adding commands and options.
 ```javascript
 // Adds "yolo" option
 cli.addOption("yolo", () => {
@@ -50,7 +49,7 @@ cli.addCommand("print", ({ options }) => {
 
 cli.run(process.argv.slice(2)); // Runs the CLI with the ARGV array;
 ```
-- then run:
+- Run the program
 ```bash
 $ node test.js print --name=Joe
 Hello Joe
@@ -59,7 +58,7 @@ $ node test.js --yolo
 You only live once.
 ```
 
-### Adding a version, name, and description to CLI
+### Adding additional info
 ```javascript
 // You must insert them first before you add the commands/options.
 
@@ -70,7 +69,7 @@ cli.set("defaultCommand", "print"); // Add default command to be executed
 ```
 
 ### `--help` Generation
-Kumander can auto-generates list everytime you add a command/option.
+It auto-generates the list everytime you add a command or option.
 ```
 $ node test.js --help
 My CLI app
@@ -80,7 +79,7 @@ Usage: my_cli app [options]
 
 Options:
 
---version                     Displays CLI version
+--version                     Display CLI version
 --yolo                        Prints the meaning of YOLO.
 --name                        Name option
 --help                        Displays the list of commands and options
@@ -95,7 +94,7 @@ print                         Prints a name
 
 ## Development 
 ### Build
-You must install [Typescript](https://typescriptlang.org) first before you start building this module. After that, you can start building it by executing:
+Kumander is written on [Typescript](https://typescriptlang.org) from the ground-up and must install the `tsc` compiler first before you start building this module. After that, you can start building it by executing:
 ```bash
 $ tsc --project ./tsconfig.json
 ```
