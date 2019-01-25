@@ -1,48 +1,96 @@
 # Kumander (Alpha)
-Simple, Express-style CLI builder for Node. Let's you create CLI programs whether in Typescript or in Javascript. No dependencies required.
+Simple, Express-style CLI builder for Node. Let's you create CLI programs whether in Typescript or in Javascript with no additional dependencies.
 
 ## Install
 ### NPM
 ```bash
-$ npm install --save https://github.com/nedpals/kumander.git
+$ npm install --save https://github.com/nedpals/kumander.git#v0.0.2
 ```
 ### Yarn
 ```bash
-$ yarn add https://github.com/nedpals/kumander.git
+$ yarn add https://github.com/nedpals/kumander.git#v0.0.2
 ```
 
 ## Usage
-### Typescript
-```typescript
-import { CLI } from "kumander";
+- Import first the module
+```javascript
+// For Typescript
+import { CLI } from "kumander/dist/kumander";
 const cli = CLI();
 
+// For NodeJS
+const kumander = require("kumander/dist/kumander");
+const cli = kumander.CLI();
+```
+- Add the following commands and options
+### Plain Javascript / Typescript
+```javascript
+// Adds "yolo" option
+cli.addOption("yolo", () => {
+    console.log("You only live once.");
+}, {
+    description: "Prints the meaning of YOLO.",
+    asCommand: true // treats the option as a command.
+})
+
+// Adds "name" option
 cli.addOption("name", (value) => {
     return value;
+}, {
+    description: "Name option", // Describe the name option
+    shorthand: "N" // Shortcut for the option ("-N")
 });
 
-cli.addCommand("print", (args) => {
-    console.log(`Hello + ${args.options.name}`);
+cli.addCommand("print", ({ options }) => {
+    console.log(`Hello + ${options.name}`);
+}, {
+    requires: "name", // Checks if "name" option is present
+    description: "Prints a name" // Describe the command
 });
 
-cli.run(process.argv.slice(2));
+cli.run(process.argv.slice(2)); // Runs the CLI with the ARGV array;
+```
+- then run:
+```bash
+$ node test.js print --name=Joe
+Hello Joe
+
+$ node test.js --yolo
+You only live once.
 ```
 
-### Plain Javascript
-
+### Adding a version, name, and description to CLI
 ```javascript
-const kumander = require("kumander");
-const cli = kumander.CLI();
+// You must insert them first before you add the commands/options.
 
-cli.addOption("name", (value) => {
-    return value;
-});
+cli.set("name", "My CLI app"); // Add CLI name
+cli.set("version", "1.0"); // Add CLI version
+cli.set("description", "Just a normal command line program"); // CLI description
+cli.set("defaultCommand", "print"); // Add default command to be executed
+```
 
-cli.addCommand("print", (args) => {
-    console.log(`Hello + ${args.options.name}`);
-});
+### `--help` Generation
+Kumander can auto-generates list everytime you add a command/option.
+```
+$ node test.js --help
+My CLI app
+Just a normal command line program
 
-cli.run(process.argv.slice(2));
+Usage: my_cli app [options]
+
+Options:
+
+--version                     Displays CLI version
+--yolo                        Prints the meaning of YOLO.
+--name                        Name option
+--help                        Displays the list of commands and options
+-N                            Shortcut of 'name'
+-v                            Shortcut of 'version'
+-h                            Shortcut of 'help'
+
+Commands:
+
+print                         Prints a name
 ```
 
 ## Development 
@@ -53,6 +101,7 @@ $ tsc --project ./tsconfig.json
 ```
 
 ### Roadmap
+- [ ] Command argument support
 - [x] Shorthand option support
 - [ ] Middleware / Plugin Support(?)
 - [x] JSDoc comments
