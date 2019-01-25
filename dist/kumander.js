@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const cli_1 = require("./src/cli");
+/**
+ * Initialize a new CLI instance.
+ */
 function CLI() {
     const state = new cli_1.CLIState();
     const Instance = {

@@ -3,12 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const parser_1 = require("./parser");
 const command_1 = require("./command");
 const option_1 = require("./option");
+/**
+ * CLI Instance's settings.
+ * @type {{ version: string, name: string, description: string, defaultCommand: string }}
+ */
 exports.cliInfo = {
     version: '',
     name: '',
     description: '',
     defaultCommand: ''
 };
+/**
+ * Create a new CLI state instance.
+ */
 exports.CLIState = function () {
     this.commands = [];
     this.shorthandOptions = {};
@@ -18,6 +25,14 @@ exports.CLIState = function () {
         this.args = obj;
     };
 };
+/**
+ * Add's option or command in an instance.
+ * @param type
+ * @param name
+ * @param cb
+ * @param options
+ * @param state
+ */
 exports.add = (type, name, cb, options = {}, state) => {
     if (type === "command") {
         command_1.addCommand(name, cb, options, state);
@@ -26,6 +41,11 @@ exports.add = (type, name, cb, options = {}, state) => {
         option_1.addOption(name, cb, options, state);
     }
 };
+/**
+ * Run the instance.
+ * @param argv ARGV array
+ * @param state CLI State to be used
+ */
 function runCli(argv, state) {
     state.setArgs(Object.assign({}, state.args, parser_1.parseArgs(argv)));
     let execute = true;
@@ -125,6 +145,10 @@ function getOption(name, state) {
     }).concat(Object.keys(options).map(optionName => optionName === name && options[optionName])).filter(el => el !== false)[0];
     return foundOption;
 }
+/**
+ * Generate help from the CLI State
+ * @param state CLI state to be use
+ */
 function generateHelp(state) {
     const cli_name = exports.cliInfo.name.replace(" ", "_").toLowerCase();
     console.log(exports.cliInfo.name);
