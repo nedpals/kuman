@@ -1,6 +1,6 @@
 {
   "name": "kumander",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple, Express-style CLI builder for Node",
   "main": "kumander.js",
   "scripts": {
