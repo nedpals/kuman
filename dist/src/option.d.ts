@@ -3,4 +3,4 @@ export interface CommandOption {
     cb: any;
 }
 export declare type OptionCallback = (value: any) => void;
-export declare function addOption(name: string, cb: OptionCallback, state: any): void;
+export declare function addOption(name: string, cb: OptionCallback, options: any, state: any): void;
