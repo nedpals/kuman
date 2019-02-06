@@ -105,7 +105,7 @@ $ tsc --project ./tsconfig.json
 - [ ] Middleware / Plugin Support(?)
 - [x] JSDoc comments
 - [x] `--help` generation
-- [x] Error handling
+- [ ] Error handling
 - [ ] Tests
 
 ### Contribute
