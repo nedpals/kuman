@@ -22,13 +22,8 @@ export function parseArgs (argv: string[]) {
         unknown: []
     };
 
-    args.unknown = argv.filter(arg => {
-        const unknownArg = arg.startsWith("--") ? arg.replace("--", "").split("=")[0] : arg;
-        return unknownArg != args.command; 
-    }).filter((arg, i, a) => {
-        const unknownArg = arg.startsWith("--") ? arg.replace("--", "").split("=")[0] : arg;
-        return Object.keys(args.options).some(opt => opt.startsWith(unknownArg));
-    });
+    args.unknown = argv.filter(i => i !== args.command)
+                       .filter(i => !i.startsWith("--") || !i.startsWith("-"));
 
     return args;
 }
