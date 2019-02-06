@@ -1,11 +1,12 @@
 {
   "name": "kumander",
-  "version": "0.0.2",
-  "description": "Simple, Express-style CLI builder for Node",
+  "version": "0.0.3",
+  "description": "Simple, Express-style CLI framework for Node",
   "main": "./dist/kumander.js",
   "types": "./dist/kumander.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-dev": "tsc --project ./tsconfig.json"
   },
   "repository": {
     "type": "git",
