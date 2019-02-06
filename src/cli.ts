@@ -207,7 +207,7 @@ function generateHelp(state: any) {
     console.log("\nCommands:\n");
 
     state.commands.map(command => {
-        let name = `${command.name}${command.argument && ('=' + command.argument.toUpperCase())}`;
+        let name = `${command.name}`;
         let description = command.hasOwnProperty('parent') ? `Redirects to '${command.parent}' command.` : command.description;
 
         console.log(name.padEnd(30, " ") + description);
