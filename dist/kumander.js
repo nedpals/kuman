@@ -10,10 +10,10 @@ function CLI() {
         set: (key, value) => {
             cli_1.cliInfo[key] = value;
         },
-        addCommand: (name, cb, options) => {
+        command: (name, cb, options) => {
             cli_1.add("command", name, cb, options, state);
         },
-        addOption: (name, cb, options) => {
+        option: (name, cb, options) => {
             cli_1.add("option", name, cb, options, state);
         },
         run: (argv) => {

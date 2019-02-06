@@ -12,10 +12,10 @@ export function CLI() {
         set: (key: string, value: any) => {
             cliInfo[key] = value;
         },
-        addCommand: (name: string, cb: CommandCallback, options?: object) => {
+        command: (name: string, cb: CommandCallback, options?: object) => {
             add("command", name, cb, options, state);
         },
-        addOption: (name: string, cb: OptionCallback, options?: object) => {
+        option: (name: string, cb: OptionCallback, options?: object) => {
             add("option", name, cb, options, state);
         },
         run: (argv: Array<string>) =>  {

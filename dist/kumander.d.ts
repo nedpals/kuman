@@ -5,7 +5,7 @@ import { OptionCallback } from "./src/option";
  */
 export declare function CLI(): {
     set: (key: string, value: any) => void;
-    addCommand: (name: string, cb: CommandCallback, options?: object) => void;
-    addOption: (name: string, cb: OptionCallback, options?: object) => void;
+    command: (name: string, cb: CommandCallback, options?: object) => void;
+    option: (name: string, cb: OptionCallback, options?: object) => void;
     run: (argv: string[]) => void;
 };
