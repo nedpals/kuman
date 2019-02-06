@@ -9,7 +9,7 @@ export type CommandCallback = (args: any) => void;
  */
 export function addCommand(name: string, cb: CommandCallback, options: any, state: any) {
     const commandAttributes = {
-        argument: '',
+        arguments: 0,
         description: '',
         shorthand: '',
         ...options

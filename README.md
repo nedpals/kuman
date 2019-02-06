@@ -100,7 +100,7 @@ $ tsc --project ./tsconfig.json
 ```
 
 ### Roadmap
-- [ ] Command argument support
+- [x] Command argument support
 - [x] Shorthand option support
 - [ ] Middleware / Plugin Support(?)
 - [x] JSDoc comments

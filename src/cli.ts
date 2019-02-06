@@ -106,9 +106,7 @@ export function runCli(argv: Array<string>, state: any) {
 
                 delete args.options[optName];
             }
-
         }
-
     })
 
     Object.keys(options).map(optName => {
@@ -124,6 +122,10 @@ export function runCli(argv: Array<string>, state: any) {
         }
     });
 
+    if (typeof currentCommand !== "undefined" && currentCommand.arguments !== 0) {
+        state.setArgs({...args, _args: args.unknown.slice(0, currentCommand.arguments) });
+    }
+
     if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires'))
         currentCommand.requires.split(", ").map(option => {
             if (typeof getOption(option, state) === "undefined") {
@@ -131,6 +133,12 @@ export function runCli(argv: Array<string>, state: any) {
                 execute = false;
             }
         });
+
+    if (typeof currentCommand !== "undefined" && args.unknown.length !== currentCommand.arguments) {
+        errorMsg = `Missing arguments: expected ${currentCommand.arguments}, got ${args.unknown.length}.`;
+        execute = false;
+        showHelp = true;
+    }
 
     if (typeof(currentCommand) === "undefined" && typeof(args.command) !== "undefined")
         errorMsg = "Command not found";

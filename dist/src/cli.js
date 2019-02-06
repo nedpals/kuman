@@ -112,6 +112,9 @@ function runCli(argv, state) {
             }
         }
     });
+    if (typeof currentCommand !== "undefined" && currentCommand.arguments !== 0) {
+        state.setArgs(Object.assign({}, args, { _args: args.unknown.slice(0, currentCommand.arguments) }));
+    }
     if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires'))
         currentCommand.requires.split(", ").map(option => {
             if (typeof getOption(option, state) === "undefined") {
@@ -119,6 +122,11 @@ function runCli(argv, state) {
                 execute = false;
             }
         });
+    if (typeof currentCommand !== "undefined" && args.unknown.length !== currentCommand.arguments) {
+        errorMsg = `Missing arguments: expected ${currentCommand.arguments}, got ${args.unknown.length}.`;
+        execute = false;
+        showHelp = true;
+    }
     if (typeof (currentCommand) === "undefined" && typeof (args.command) !== "undefined")
         errorMsg = "Command not found";
     if (argv.length === 0) {

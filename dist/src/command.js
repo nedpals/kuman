@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param state State to be used
  */
 function addCommand(name, cb, options, state) {
-    const commandAttributes = Object.assign({ argument: '', description: '', shorthand: '' }, options);
+    const commandAttributes = Object.assign({ arguments: 0, description: '', shorthand: '' }, options);
     state.commands.push(Object.assign({ name, run: (args = state.args) => cb(args) }, commandAttributes));
 }
 exports.addCommand = addCommand;
