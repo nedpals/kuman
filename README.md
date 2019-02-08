@@ -105,7 +105,7 @@ print                         Prints a name
 ### Build
 Kumander is written on [Typescript](https://typescriptlang.org) from the ground-up and must install the `tsc` compiler first before you start building this module. After that, you can start building it by executing:
 ```bash
-$ tsc --project ./tsconfig.json
+$ npm build-dev
 ```
 
 ### Roadmap
