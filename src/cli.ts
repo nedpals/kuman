@@ -134,13 +134,21 @@ export function runCli(argv: Array<string>, state: any) {
         state.setArgs({...args, _args: args.unknown.slice(0, currentCommand.arguments) });
     }
 
-    if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires'))
-        currentCommand.requires.split(", ").map(option => {
-            if (typeof getOption(option, state) === "undefined") {
-                errorMsg = "Missing option: " + option;
+    if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires')) {
+        if (currentCommand.isArray()) {
+            currentCommand.requires.map(option => {
+                if (typeof getOption(option, state) === "undefined") {
+                    errorMsg = "Missing option: " + option;
+                    execute = false;
+                }
+            });
+        } else {
+            if (typeof getOption(currentCommand.requires, state) === "undefined") {
+                errorMsg = "Missing option: " + currentCommand.requires;
                 execute = false;
             }
-        });
+        }
+    }
 
     if (typeof currentCommand !== "undefined" && args.unknown.length !== currentCommand.arguments) {
         errorMsg = `Missing arguments: expected ${currentCommand.arguments}, got ${args.unknown.length}.`;
