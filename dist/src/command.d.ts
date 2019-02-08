@@ -1,4 +1,10 @@
 export declare type CommandCallback = (args: any) => void;
+export interface CommandAttributes {
+    arguments?: number;
+    description?: string;
+    shorthand?: string;
+    requires?: string | Array<string>;
+}
 /**
  * Adds command in the instance state.
  * @param name Name of the command
@@ -6,4 +12,4 @@ export declare type CommandCallback = (args: any) => void;
  * @param options Additional settings for the command
  * @param state State to be used
  */
-export declare function addCommand(name: string, cb: CommandCallback, options: any, state: any): void;
+export declare function addCommand(name: string, cb: CommandCallback, options: CommandAttributes, state: any): void;

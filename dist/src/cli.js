@@ -3,10 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const parser_1 = require("./parser");
 const command_1 = require("./command");
 const option_1 = require("./option");
-/**
- * CLI Instance's settings.
- * @type {{ version: string, name: string, description: string, defaultCommand: string }}
- */
 exports.cliInfo = {
     version: '',
     name: '',
@@ -115,13 +111,22 @@ function runCli(argv, state) {
     if (typeof currentCommand !== "undefined" && currentCommand.arguments !== 0) {
         state.setArgs(Object.assign({}, args, { _args: args.unknown.slice(0, currentCommand.arguments) }));
     }
-    if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires'))
-        currentCommand.requires.split(", ").map(option => {
-            if (typeof getOption(option, state) === "undefined") {
-                errorMsg = "Missing option: " + option;
+    if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires')) {
+        if (currentCommand.isArray()) {
+            currentCommand.requires.map(option => {
+                if (typeof getOption(option, state) === "undefined") {
+                    errorMsg = "Missing option: " + option;
+                    execute = false;
+                }
+            });
+        }
+        else {
+            if (typeof getOption(currentCommand.requires, state) === "undefined") {
+                errorMsg = "Missing option: " + currentCommand.requires;
                 execute = false;
             }
-        });
+        }
+    }
     if (typeof currentCommand !== "undefined" && args.unknown.length !== currentCommand.arguments) {
         errorMsg = `Missing arguments: expected ${currentCommand.arguments}, got ${args.unknown.length}.`;
         execute = false;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+;
 /**
  * Adds command in the instance state.
  * @param name Name of the command

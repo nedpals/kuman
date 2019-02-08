@@ -3,6 +3,15 @@ export interface CommandOption {
     cb: any;
 }
 export declare type OptionCallback = (value: any) => void;
+interface OptionShorthand {
+    value: string;
+    uppercase: boolean;
+}
+export interface OptionAttributes {
+    description?: string;
+    asCommand?: boolean;
+    shorthand?: string | OptionShorthand;
+}
 /**
  *
  * @param name Name of the option
@@ -10,4 +19,5 @@ export declare type OptionCallback = (value: any) => void;
  * @param options Additional settings to the option
  * @param state State to be used
  */
-export declare function addOption(name: string, cb: OptionCallback, options: any, state: any): void;
+export declare function addOption(name: string, cb: OptionCallback, options: OptionAttributes, state: any): void;
+export {};
