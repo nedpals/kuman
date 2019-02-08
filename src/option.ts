@@ -5,6 +5,17 @@ export interface CommandOption {
 
 export type OptionCallback = (value: any) => void;
 
+interface OptionShorthand {
+    value: string,
+    uppercase: boolean
+}
+
+export interface OptionAttributes {
+    description?: string,
+    asCommand?: boolean,
+    shorthand?: string | OptionShorthand
+}
+
 /**
  * 
  * @param name Name of the option
@@ -12,13 +23,13 @@ export type OptionCallback = (value: any) => void;
  * @param options Additional settings to the option
  * @param state State to be used
  */
-export function addOption(name: string, cb: OptionCallback, options: any, state: any) {
-    const optionAtrributes = {
+export function addOption(name: string, cb: OptionCallback, options: OptionAttributes, state: any) {
+    const optionAttributes: OptionAttributes = {
         description: '',
         ...options
     }
 
-    delete optionAtrributes.shorthand;
+    delete optionAttributes.shorthand;
 
     if (typeof options.shorthand !== "undefined") {
         if (typeof options.shorthand === "object") {
@@ -32,12 +43,6 @@ export function addOption(name: string, cb: OptionCallback, options: any, state:
 
     state.options[name] = {
         cb,
-        ...optionAtrributes
+        ...optionAttributes
     };
-
-    // if (typeof cb === 'any') {
-
-    // }
-
-    
 }

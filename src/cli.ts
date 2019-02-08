@@ -4,9 +4,17 @@ import { addOption } from "./option";
 
 /**
  * CLI Instance's settings.
- * @type {{ version: string, name: string, description: string, defaultCommand: string }}
+ * @type {{ version: string | number, name: string, description: string, defaultCommand: string }}
  */
-export const cliInfo = {
+
+interface CLIInfo {
+    version: string | number,
+    name: string,
+    description: string,
+    defaultCommand: string
+}
+
+export const cliInfo: CLIInfo = {
     version: '',
     name: '',
     description: '',

@@ -1,6 +1,6 @@
 import { CLIState, add, runCli, cliInfo } from "./src/cli";
-import { CommandCallback } from "./src/command";
-import { OptionCallback } from "./src/option";
+import { CommandCallback, CommandAttributes } from "./src/command";
+import { OptionCallback, OptionAttributes } from "./src/option";
 
 /**
  * Initialize a new CLI instance.
@@ -12,10 +12,10 @@ export function CLI() {
         set: (key: string, value: any) => {
             cliInfo[key] = value;
         },
-        command: (name: string, cb: CommandCallback, options?: object) => {
+        command: (name: string, cb: CommandCallback, options?: CommandAttributes) => {
             add("command", name, cb, options, state);
         },
-        option: (name: string, cb: OptionCallback, options?: object) => {
+        option: (name: string, cb: OptionCallback, options?: OptionAttributes) => {
             add("option", name, cb, options, state);
         },
         run: (argv: Array<string>) =>  {
