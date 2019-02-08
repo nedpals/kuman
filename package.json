@@ -1,6 +1,6 @@
 {
   "name": "kumander",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple, Express-style CLI framework for Node",
   "main": "./dist/kumander.js",
   "types": "./dist/kumander.d.ts",
