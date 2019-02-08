@@ -4,11 +4,11 @@ Simple, Express-style CLI framework for Node. Create CLI programs written in Typ
 ## Install
 ### NPM
 ```bash
-$ npm install --save kumander@0.0.3
+$ npm install --save kumander@0.0.4
 ```
 ### Yarn
 ```bash
-$ yarn add kumander@0.0.3
+$ yarn add kumander@0.0.4
 ```
 
 ## Usage
