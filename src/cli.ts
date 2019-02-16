@@ -1,24 +1,27 @@
 import { parseArgs } from "./parser";
 import { addCommand } from "./command";
 import { addOption } from "./option";
+import generateHelp from "./help";
 
 /**
  * CLI Instance's settings.
- * @type {{ version: string | number, name: string, description: string, defaultCommand: string }}
+ * @type {{ version: string | number, name: string, description: string, defaultCommand: string, usage: string }}
  */
 
-interface CLIInfo {
+export interface CLIInfo {
     version: string | number,
     name: string,
     description: string,
-    defaultCommand: string
+    defaultCommand: string,
+    usage: string
 }
 
 export const cliInfo: CLIInfo = {
     version: '',
     name: '',
     description: '',
-    defaultCommand: ''
+    defaultCommand: '',
+    usage: ''
 };
 
 /**
@@ -62,6 +65,7 @@ export function runCli(argv: Array<string>, state: any) {
     let errorMsg = "";
     let showHelp = false;
 
+    const help = () => generateHelp(state, cliInfo);
     const { options, args, shorthandOptions } = state;
     const getCmd = (name: string) => getCommand(name, state);
     const currentCommand = getCmd(args.command);
@@ -74,7 +78,7 @@ export function runCli(argv: Array<string>, state: any) {
                 console.error(errorMsg);
 
             if (showHelp)
-                generateHelp(state);
+                help()
         }
     };
 
@@ -89,9 +93,7 @@ export function runCli(argv: Array<string>, state: any) {
         description: "Displays CLI version"
     }, state);
 
-    add("option", "help", () => {
-        generateHelp(state);
-    }, {
+    add("option", "help", () => help(), {
         shorthand: {
             value: "h",
             uppercase: false
@@ -186,46 +188,4 @@ function getOption(name: string, state: any) {
         }).concat(Object.keys(options).map(optionName => optionName === name && options[optionName])).filter(el => el !== false)[0];
 
     return foundOption;
-}
-
-/**
- * Generate help from the CLI State
- * @param state CLI state to be use
- */
-function generateHelp(state: any) {
-    const cli_name = cliInfo.name.replace(" ", "_").toLowerCase()
-
-    console.log(cliInfo.name);
-    console.log(cliInfo.description);
-    
-
-    console.log(`\nUsage: ${cli_name} [options]`)
-
-    console.log("\nOptions:\n");
-    
-    Object.keys(state.options).sort((a, b) => {
-        if (a.length > b.length)
-            return 0;
-        
-        if (a.length < b.length)
-            return 1;
-    }).map(option => {
-        let name = `--${option}`;
-        
-        console.log(`${name.padEnd(30, " ")}${state.options[option].description}`);
-    });
-
-    Object.keys(state.shorthandOptions).map(option => {
-        let shorthand = `-${option}`;
-        console.log(`${shorthand.padEnd(30, " ")}Shortcut of '${state.shorthandOptions[option]}'`);
-    });
-
-    console.log("\nCommands:\n");
-
-    state.commands.map(command => {
-        let name = `${command.name}`;
-        let description = command.hasOwnProperty('parent') ? `Redirects to '${command.parent}' command.` : command.description;
-
-        console.log(name.padEnd(30, " ") + description);
-    });
 }
