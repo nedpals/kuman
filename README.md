@@ -115,7 +115,7 @@ $ npm build-dev
 - [x] JSDoc comments
 - [x] `--help` generation
 - [ ] Error handling
-- [ ] Tests
+- [x] Tests
 
 ### Contribute
 1. Fork / Clone this repo. (`git clone https://github.com/nedpals/kumander.git`)

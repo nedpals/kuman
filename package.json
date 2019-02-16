@@ -5,14 +5,14 @@
   "main": "./dist/kumander.js",
   "types": "./dist/kumander.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-dev": "tsc --project ./tsconfig.json"
+    "test": "jest",
+    "build-dev": "rm -rf dist/ && tsc --project ./tsconfig.json"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nedpals/kumander.git"
   },
-  "keywords": [ 
+  "keywords": [
     "cli",
     "command-line",
     "typescript",
@@ -25,7 +25,11 @@
     "url": "https://github.com/nedpals/kumander/issues"
   },
   "homepage": "https://github.com/nedpals/kumander#readme",
-  "dependencies": {
-    "@types/node": "^10.12.18"
+  "devDependencies": {
+    "jest": "23",
+    "@types/node": "^10.12.18",
+    "@types/jest": "^24.0.5",
+    "ts-jest": "^23.10.5",
+    "typescript": "^3.3.3"
   }
 }
