@@ -137,7 +137,7 @@ export function runCli(argv: Array<string>, state: any) {
     }
 
     if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires')) {
-        if (currentCommand.isArray()) {
+        if (Array.isArray(currentCommand.requires)) {
             currentCommand.requires.map(option => {
                 if (typeof getOption(option, state) === "undefined") {
                     errorMsg = "Missing option: " + option;
