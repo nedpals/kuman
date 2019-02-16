@@ -1,7 +1,7 @@
-import { parseArgs as parse } from "../src/parser";
+import parseArgv from "../src/parser";
  
 test('parse argv', () => {
-    expect(parse(["test", "--hello=world", "-F", "hey", "unkn"]))
+    expect(parseArgv(["test", "--hello=world", "-F", "hey", "unkn"]))
         .toEqual({
             command: "test",
             options: {
@@ -13,7 +13,7 @@ test('parse argv', () => {
 });
 
 test('parse argv without command', () => {
-    expect(parse(["--hello"]))
+    expect(parseArgv(["--hello"]))
         .toEqual({
             command: undefined,
             options: {
@@ -24,7 +24,7 @@ test('parse argv without command', () => {
 });
 
 test('parse options with equals', () => {
-    expect(parse(["--hello=world"]))
+    expect(parseArgv(["--hello=world"]))
         .toEqual({
             command: undefined,
             options: {
@@ -35,7 +35,7 @@ test('parse options with equals', () => {
 });
 
 test('parse options without equals', () => {
-    expect(parse(["--hello", "world", "-F", "24", "--foo", "bar,net,que"]))
+    expect(parseArgv(["--hello", "world", "-F", "24", "--foo", "bar,net,que"]))
         .toEqual({
             command: undefined,
             options: {
@@ -48,7 +48,7 @@ test('parse options without equals', () => {
 });
 
 test('parse options with an array of values', () => {
-    expect(parse(["--hello=world,foo,bar"]))
+    expect(parseArgv(["--hello=world,foo,bar"]))
         .toEqual({
             command: undefined,
             options: {
