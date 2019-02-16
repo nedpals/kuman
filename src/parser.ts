@@ -6,24 +6,54 @@ export function parseArgs (argv: string[]) {
     if (argv.length === 0)
         return { command: '', options: {}, unknown: [] };
 
-    const args = {
-        command: !argv[0].startsWith("-") ? argv[0] : undefined,
-        options: argv.filter(arg => arg.startsWith("--") || arg.startsWith("-"))
-                    .map(arg => arg.replace(arg.startsWith("--") ? "--" : "-", "").split("="))
-                    .map(arg => ({ name: arg[0], value: arg[1] || "" }))
-                    .map(arg => ({
-                        name: arg.name,
-                        value: arg.value.split(",").length > 1 ? arg.value.split(",") : arg.value
-                    }))
-                    .reduce((obj, item) => {
-                        obj[item.name] = item.value;
-                        return obj;
-                    }, {}),
+    const parsed = {
+        command: undefined,
+        options: {},
         unknown: []
     };
 
-    args.unknown = argv.filter(i => i !== args.command)
-                       .filter(i => !i.startsWith("--") || !i.startsWith("-"));
+    for (let i = 0; i < argv.length; i++) {
+        const current: string = argv[i];
 
-    return args;
+        if (!detectHyphenArgs(current)) {
+            if (i === 0)
+                parsed.command = current;
+
+            if (i !== 0 && detectHyphenArgs(argv[i-1])) {
+                const prevArg = parseHypenArgs(argv[i-1]);
+
+                parsed.options[prevArg[0]] = detectArrayOfValues(current) ? current.split(",") : current;
+            }
+        }
+
+        if (i !== 0 && (!detectHyphenArgs(argv[i-1]) && !detectHyphenArgs(current))) {
+            parsed.unknown.push(current);
+        }
+
+        if (detectHyphenArgs(current)) {
+            const arg = parseHypenArgs(current);
+            
+            const value = (() => {
+                const val = arg[1] || ""
+
+                return detectArrayOfValues(val) ? val.split(",") : val;
+            })()
+
+            parsed.options[arg[0]] = value;
+        }
+    }
+
+    return parsed;
+}
+
+function parseHypenArgs(val) {
+    return val.replace(val.startsWith("--") ? "--" : "-", "").split("=");
+}
+
+function detectArrayOfValues(val) {
+    return val.split(",").length > 1 ? true : false;
+}
+
+function detectHyphenArgs(arg: string) {
+    return arg.startsWith("-");
 }
