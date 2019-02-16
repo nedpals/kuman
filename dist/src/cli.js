@@ -45,7 +45,7 @@ exports.add = (type, name, cb, options = {}, state) => {
  * @param state CLI State to be used
  */
 function runCli(argv, state) {
-    state.setArgs(Object.assign({}, state.args, parser_1.parseArgs(argv)));
+    state.setArgs(Object.assign({}, state.args, parser_1.default(argv)));
     let execute = true;
     let errorMsg = "";
     let showHelp = false;
@@ -113,7 +113,7 @@ function runCli(argv, state) {
         state.setArgs(Object.assign({}, args, { _args: args.unknown.slice(0, currentCommand.arguments) }));
     }
     if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires')) {
-        if (currentCommand.isArray()) {
+        if (Array.isArray(currentCommand.requires)) {
             currentCommand.requires.map(option => {
                 if (typeof getOption(option, state) === "undefined") {
                     errorMsg = "Missing option: " + option;

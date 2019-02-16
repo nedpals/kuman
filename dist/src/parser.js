@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Parses commands, options, and unknown arguments from the ARGV array.
  * @param argv ARGV to be used
  */
-function parseArgs(argv) {
+function parseArgv(argv) {
     if (argv.length === 0)
         return { command: '', options: {}, unknown: [] };
     const parsed = {
@@ -36,7 +36,7 @@ function parseArgs(argv) {
     }
     return parsed;
 }
-exports.parseArgs = parseArgs;
+exports.default = parseArgv;
 function parseHypenArgs(val) {
     return val.replace(val.startsWith("--") ? "--" : "-", "").split("=");
 }
