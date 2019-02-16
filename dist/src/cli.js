@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const parser_1 = require("./parser");
 const command_1 = require("./command");
 const option_1 = require("./option");
+const help_1 = require("./help");
 exports.cliInfo = {
     version: '',
     name: '',
     description: '',
-    defaultCommand: ''
+    defaultCommand: '',
+    usage: ''
 };
 /**
  * Create a new CLI state instance.
@@ -47,6 +49,7 @@ function runCli(argv, state) {
     let execute = true;
     let errorMsg = "";
     let showHelp = false;
+    const help = () => help_1.default(state, exports.cliInfo);
     const { options, args, shorthandOptions } = state;
     const getCmd = (name) => getCommand(name, state);
     const currentCommand = getCmd(args.command);
@@ -59,7 +62,7 @@ function runCli(argv, state) {
             if (errorMsg.length !== 0)
                 console.error(errorMsg);
             if (showHelp)
-                generateHelp(state);
+                help();
         }
     };
     exports.add("option", "version", () => {
@@ -72,9 +75,7 @@ function runCli(argv, state) {
         asCommand: true,
         description: "Displays CLI version"
     }, state);
-    exports.add("option", "help", () => {
-        generateHelp(state);
-    }, {
+    exports.add("option", "help", () => help(), {
         shorthand: {
             value: "h",
             uppercase: false
@@ -157,34 +158,4 @@ function getOption(name, state) {
         return optionName === name && options[currentShorthand];
     }).concat(Object.keys(options).map(optionName => optionName === name && options[optionName])).filter(el => el !== false)[0];
     return foundOption;
-}
-/**
- * Generate help from the CLI State
- * @param state CLI state to be use
- */
-function generateHelp(state) {
-    const cli_name = exports.cliInfo.name.replace(" ", "_").toLowerCase();
-    console.log(exports.cliInfo.name);
-    console.log(exports.cliInfo.description);
-    console.log(`\nUsage: ${cli_name} [options]`);
-    console.log("\nOptions:\n");
-    Object.keys(state.options).sort((a, b) => {
-        if (a.length > b.length)
-            return 0;
-        if (a.length < b.length)
-            return 1;
-    }).map(option => {
-        let name = `--${option}`;
-        console.log(`${name.padEnd(30, " ")}${state.options[option].description}`);
-    });
-    Object.keys(state.shorthandOptions).map(option => {
-        let shorthand = `-${option}`;
-        console.log(`${shorthand.padEnd(30, " ")}Shortcut of '${state.shorthandOptions[option]}'`);
-    });
-    console.log("\nCommands:\n");
-    state.commands.map(command => {
-        let name = `${command.name}`;
-        let description = command.hasOwnProperty('parent') ? `Redirects to '${command.parent}' command.` : command.description;
-        console.log(name.padEnd(30, " ") + description);
-    });
 }

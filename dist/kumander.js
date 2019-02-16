@@ -7,8 +7,12 @@ const cli_1 = require("./src/cli");
 function CLI() {
     const state = new cli_1.CLIState();
     const Instance = {
+        state,
         set: (key, value) => {
             cli_1.cliInfo[key] = value;
+        },
+        get: (key) => {
+            return cli_1.cliInfo[key];
         },
         command: (name, cb, options) => {
             cli_1.add("command", name, cb, options, state);

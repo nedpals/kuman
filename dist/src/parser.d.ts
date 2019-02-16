@@ -3,7 +3,7 @@
  * @param argv ARGV to be used
  */
 export declare function parseArgs(argv: string[]): {
-    command: string;
+    command: any;
     options: {};
     unknown: any[];
 };

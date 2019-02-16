@@ -1,12 +1,13 @@
 /**
  * CLI Instance's settings.
- * @type {{ version: string | number, name: string, description: string, defaultCommand: string }}
+ * @type {{ version: string | number, name: string, description: string, defaultCommand: string, usage: string }}
  */
-interface CLIInfo {
+export interface CLIInfo {
     version: string | number;
     name: string;
     description: string;
     defaultCommand: string;
+    usage: string;
 }
 export declare const cliInfo: CLIInfo;
 /**
@@ -28,4 +29,3 @@ export declare const add: (type: string, name: string, cb: any, options: object,
  * @param state CLI State to be used
  */
 export declare function runCli(argv: Array<string>, state: any): void;
-export {};
