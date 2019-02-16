@@ -9,8 +9,12 @@ export function CLI() {
     const state = new CLIState();
 
     const Instance = {
+        state,
         set: (key: string, value: any) => {
             cliInfo[key] = value;
+        },
+        get: (key: string) => {
+            return cliInfo[key]
         },
         command: (name: string, cb: CommandCallback, options?: CommandAttributes) => {
             add("command", name, cb, options, state);
