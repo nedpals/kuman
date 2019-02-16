@@ -1,4 +1,4 @@
-import { parseArgs } from "./parser";
+import parseArgv from "./parser";
 import { addCommand } from "./command";
 import { addOption } from "./option";
 import generateHelp from "./help";
@@ -59,7 +59,7 @@ export const add = (type: string, name: string, cb: any, options: object = {}, s
  * @param state CLI State to be used
  */
 export function runCli(argv: Array<string>, state: any) {    
-    state.setArgs({ ...state.args, ...parseArgs(argv) });
+    state.setArgs({ ...state.args, ...parseArgv(argv) });
 
     let execute = true;
     let errorMsg = "";

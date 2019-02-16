@@ -2,7 +2,7 @@
  * Parses commands, options, and unknown arguments from the ARGV array.
  * @param argv ARGV to be used
  */
-export function parseArgs (argv: string[]) {
+export default function parseArgv (argv: string[]) {
     if (argv.length === 0)
         return { command: '', options: {}, unknown: [] };
 
