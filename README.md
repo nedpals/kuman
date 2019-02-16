@@ -1,6 +1,8 @@
 # Kuman (Alpha)
 Formerly *Kumander*. Simple, Express-style CLI framework for Node. Create CLI programs written in Typescript or in Javascript with no additional dependencies.
 
+### Visit the new docs [here](https://nedpals.gitbook.io/kuman/).
+
 ## Install
 ### NPM
 ```bash
