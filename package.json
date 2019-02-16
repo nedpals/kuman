@@ -1,9 +1,9 @@
 {
-  "name": "kumander",
-  "version": "0.0.4",
+  "name": "kuman",
+  "version": "0.0.5",
   "description": "Simple, Express-style CLI framework for Node",
-  "main": "./dist/kumander.js",
-  "types": "./dist/kumander.d.ts",
+  "main": "./dist/kuman.js",
+  "types": "./dist/kuman.d.ts",
   "scripts": {
     "test": "jest",
     "build-dev": "rm -rf dist/ && tsc --project ./tsconfig.json"
@@ -22,9 +22,9 @@
   "author": "Ned Palacios",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nedpals/kumander/issues"
+    "url": "https://github.com/nedpals/kuman/issues"
   },
-  "homepage": "https://github.com/nedpals/kumander#readme",
+  "homepage": "https://github.com/nedpals/kuman#readme",
   "devDependencies": {
     "jest": "23",
     "@types/node": "^10.12.18",

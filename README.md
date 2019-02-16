@@ -1,26 +1,26 @@
-# Kumander (Alpha)
-Simple, Express-style CLI framework for Node. Create CLI programs written in Typescript or in Javascript with no additional dependencies.
+# Kuman (Alpha)
+Formerly *Kumander*. Simple, Express-style CLI framework for Node. Create CLI programs written in Typescript or in Javascript with no additional dependencies.
 
 ## Install
 ### NPM
 ```bash
-$ npm install --save kumander@0.0.4
+$ npm install --save kuman@0.0.4
 ```
 ### Yarn
 ```bash
-$ yarn add kumander@0.0.4
+$ yarn add kuman@0.0.4
 ```
 
 ## Usage
 - Import first the module
 ```javascript
 // For Typescript
-import { CLI } from "kumander/dist/kumander";
+import { CLI } from "kuman";
 const cli = CLI();
 
 // For NodeJS
-const kumander = require("kumander/dist/kumander");
-const cli = kumander.CLI();
+const kuman = require("kuman/dist/kuman");
+const cli = kuman.CLI();
 ```
 - Start using it by adding commands and options.
 ```javascript
@@ -118,7 +118,7 @@ $ npm build-dev
 - [x] Tests
 
 ### Contribute
-1. Fork / Clone this repo. (`git clone https://github.com/nedpals/kumander.git`)
+1. Fork / Clone this repo. (`git clone https://github.com/nedpals/kuman.git`)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
