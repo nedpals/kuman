@@ -16,22 +16,6 @@ export const CLIState = function () : void {
 };
 
 /**
- * Add's option or command in an instance.
- * @param type 
- * @param name 
- * @param cb 
- * @param options 
- * @param state 
- */
-export const add = (type: string, name: string, cb: any, options: object = {}, state: any) => {
-    if (type === "command") {
-        addCommand(name, cb, options, state);
-    } else {
-        addOption(name, cb, options, state);
-    }
-};
-
-/**
  * Run the instance.
  * @param argv ARGV array
  * @param state CLI State to be used
@@ -58,6 +42,7 @@ export function runCli(argv: ARGVArray, state: any) {
         }
     };
 
+    addOption("version", () => {
         event.emit("showVersion");
     }, {
         shorthand: "v",
@@ -65,6 +50,7 @@ export function runCli(argv: ARGVArray, state: any) {
         description: "Displays CLI version"
     }, state);
 
+    addOption("help", () => help(), {
         shorthand: "h",
         asCommand: true,
         description: "Displays the list of commands and options"
