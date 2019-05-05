@@ -1,6 +1,5 @@
 import parseArgv, { ARGVArray } from "./parser";
 import * as event from "./events";
-import { addCommand } from "./command";
 import { addOption } from "./option";
 import generateHelp from "./help";
 
@@ -73,22 +72,22 @@ export function runCli(argv: ARGVArray, state: any) {
     if (typeof currentCommand === "undefined") {
         if (typeof(args.command) !== "undefined") {
             errorMsg = "Command not found";
-            }
+        }
 
         return;
-        }
+    }
 
     if (currentCommand.arguments !== 0) {
         state.setArgs({...args, _args: args.unknown.slice(0, currentCommand.arguments) });
     }
 
     if (currentCommand.hasOwnProperty('requires') && Array.isArray(currentCommand.requires)) {
-            currentCommand.requires.map(option => {
-                if (typeof getOption(option, state) === "undefined") {
-                    errorMsg = "Missing option: " + option;
-                    execute = false;
-                }
-            });
+        currentCommand.requires.map(option => {
+            if (typeof getOption(option, state) === "undefined") {
+                errorMsg = "Missing option: " + option;
+                execute = false;
+            }
+        });
     }
 
     if (args.unknown.length !== currentCommand.arguments) {
