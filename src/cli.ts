@@ -1,4 +1,5 @@
-import parseArgv from "./parser";
+import parseArgv, { ARGVArray } from "./parser";
+import * as event from "./events";
 import { addCommand } from "./command";
 import { addOption } from "./option";
 import generateHelp from "./help";
