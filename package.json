@@ -26,9 +26,10 @@
   },
   "homepage": "https://github.com/nedpals/kuman#readme",
   "devDependencies": {
-    "jest": "23",
-    "@types/node": "^10.12.18",
     "@types/jest": "^24.0.5",
+    "@types/node": "^10.12.18",
+    "jest": "23",
+    "jest-mock-console": "^0.4.2",
     "ts-jest": "^23.10.5",
     "typescript": "^3.3.3"
   }
