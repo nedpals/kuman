@@ -4,27 +4,6 @@ import { addOption } from "./option";
 import generateHelp from "./help";
 
 /**
- * CLI Instance's settings.
- * @type {{ version: string | number, name: string, description: string, defaultCommand: string, usage: string }}
- */
-
-export interface CLIInfo {
-    version: string | number,
-    name: string,
-    description: string,
-    defaultCommand: string,
-    usage: string
-}
-
-export const cliInfo: CLIInfo = {
-    version: '',
-    name: '',
-    description: '',
-    defaultCommand: '',
-    usage: ''
-};
-
-/**
  * Create a new CLI state instance.
  */
 export const CLIState = function () : void {
@@ -57,7 +36,7 @@ export const add = (type: string, name: string, cb: any, options: object = {}, s
  * @param argv ARGV array
  * @param state CLI State to be used
  */
-export function runCli(argv: Array<string>, state: any) {    
+export function runCli(argv: ARGVArray, state: any) {    
     state.setArgs({ ...state.args, ...parseArgv(argv) });
 
     let execute = true;
