@@ -69,7 +69,6 @@ export function runCli(argv: Array<string>, state: any) {
     const { options, args, shorthandOptions } = state;
     const getCmd = (name: string) => getCommand(name, state);
     const currentCommand = getCmd(args.command);
-    const defaultCommand = getCmd(cliInfo.defaultCommand);
     const runCommand = () => {
         if (execute && typeof(currentCommand) !== "undefined") {
             currentCommand.run();
@@ -82,8 +81,7 @@ export function runCli(argv: Array<string>, state: any) {
         }
     };
 
-    add("option", "version", () => {
-        console.log(cliInfo.version);
+        event.emit("showVersion");
     }, {
         shorthand: {
             value: "v",
@@ -166,8 +164,8 @@ export function runCli(argv: Array<string>, state: any) {
         execute = false;
     }
 
-    if ((typeof(args.command) === "undefined" && Object.keys(args.options).length === 0) && cliInfo.defaultCommand.length !== 0)
-        defaultCommand.run();
+    if ((typeof(args.command) === "undefined" && state.options.length === 0))
+        event.emit("error");
 
     runCommand();
 };

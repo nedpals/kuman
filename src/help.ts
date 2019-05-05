@@ -1,16 +1,11 @@
-import { CLIInfo } from "./cli";
+import * as event from "./events";
 
 /**
  * Generate help from the CLI State
  * @param state CLI state to be use
  */
-export default function generateHelp(state: any, info: CLIInfo) {
-    const cli_name = info.name.replace(" ", "_").toLowerCase()
-
-    console.log(info.name);
-    console.log(info.description);
-
-    console.log(`\nUsage: ` + (info.usage || `${cli_name} [options]`))
+export default function generateHelp(state: any) {
+    event.emit("showHelp");
 
     console.log("\nOPTIONS:\n");
     
