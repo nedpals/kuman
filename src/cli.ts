@@ -153,11 +153,7 @@ export function runCli(argv: Array<string>, state: any) {
 };
 
 function getCommand(name: string, state: any) {
-    const { commands } = state;
-    const getShorthandCommand = commands.find(command => command.shorthand === name);
-    const getFullCommand = commands.find(command => command.name === name);
-
-    return getFullCommand || getShorthandCommand;
+    return state.commands.find(command => command.shorthand === name || command.name === name);
 }
 
 function getOption(name: string, state: any) {
