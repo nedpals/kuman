@@ -1,7 +1,9 @@
 export type OptionCallback = (value: any) => void;
 export interface OptionAttributes {
+    name?: string,
     description?: string,
     asCommand?: boolean,
+    cb?: OptionCallback,
     shorthand?: string
 }
 
@@ -13,8 +15,10 @@ export interface OptionAttributes {
  * @param state State to be used
  */
 export function addOption(name: string, cb: OptionCallback, options: OptionAttributes, state: any) {
-    const optionAttributes: OptionAttributes = {
+    const option: OptionAttributes = {
         description: '',
+        name,
+        cb,
         ...options
     };
 
