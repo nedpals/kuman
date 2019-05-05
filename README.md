@@ -1,16 +1,16 @@
 # Kuman (Alpha)
-Formerly *Kumander*. Simple, Express-style CLI framework for Node. Create CLI programs written in Typescript or in Javascript with no additional dependencies.
+Simple, Express-style CLI framework for Node. Create CLI programs written in Typescript or in Javascript with no additional dependencies.
 
-### Visit the new docs [here](https://nedpals.gitbook.io/kuman/).
+<!-- ### Visit the new docs [here](https://nedpals.gitbook.io/kuman/). -->
 
 ## Install
 ### NPM
 ```bash
-$ npm install --save kuman@0.0.4
+$ npm install --save kuman@0.0.6
 ```
 ### Yarn
 ```bash
-$ yarn add kuman@0.0.4
+$ yarn add kuman@0.0.6
 ```
 
 ## Usage
@@ -26,11 +26,6 @@ const cli = kuman.CLI();
 ```
 - Start using it by adding commands and options.
 ```javascript
-cli.set("name", "My CLI app"); // Add CLI name
-cli.set("version", "1.0"); // Add CLI version
-cli.set("description", "Just a normal command line program"); // CLI description
-cli.set("defaultCommand", "print"); // Add default command to be executed
-
 // Adds "yolo" option
 cli.option("yolo", () => {
     console.log("You only live once.");
@@ -44,7 +39,7 @@ cli.option("age", (value) => {
     return value;
 }, {
     description: "Age option", // Describe the name option
-    shorthand: "A" // Shortcut for the option ("-A")
+    shorthand: ["A"] // Shortcut for the option ("-A")
 });
 
 cli.command("print", ({ options, _args }) => {
@@ -69,18 +64,26 @@ $ node test.js --yolo
 You only live once.
 ```
 
-### Adding additional info
-```javascript
-// You must insert them first before you add the commands/options.
+### Events (new in 0.0.6)
+Events is a new feature in Kuman in which you can trigger certain events everytime your CLI app will launch, display version, and etc. It replaces the `get()` and `set()` functions that manipulate few instance settings and values like `cli_version` and `cli_name`.
 
-cli.set("name", "My CLI app"); // Add CLI name
-cli.set("version", "1.0"); // Add CLI version
-cli.set("description", "Just a normal command line program"); // CLI description
-cli.set("defaultCommand", "print"); // Add default command to be executed
+```javascript
+// This outputs the following information when you type `--help` 
+cli.on("showHelp", () => {
+    console.log("My App");
+    console.log("This is a sample CLI app");
+    console.log("\nUsage: my_app [options]");
+});
+
+// This event triggers when you check the version of your CLI app.
+cli.on("showVersion", () => {
+    console.log("1.0");
+});
 ```
 
+
 ### `--help` Generation
-Kumander can auto-generate the list everytime you add a command or option.
+Kuman can auto-generate the list everytime you add a command or option.
 ```
 $ node test.js --help
 My CLI app
@@ -88,24 +91,22 @@ Just a normal command line program
 
 Usage: my_cli app [options]
 
-Options:
+OPTIONS:
 
---version                     Displays CLI version
---yolo                        Prints the meaning of YOLO.
+--yolo, -A                    Prints the meaning of YOLO.
+--debug, -D                   Debug information
+--age, -h                     Age option
+--version, -v                 Displays CLI version
 --help                        Displays the list of commands and options
---age                         Age option
--A                            Shortcut of 'age'
--v                            Shortcut of 'version'
--h                            Shortcut of 'help'
 
-Commands:
+COMMANDS:
 
 print                         Prints a name
 ```
 
 ## Development 
 ### Build
-Kumander is written on [Typescript](https://typescriptlang.org) from the ground-up and must install the `tsc` compiler first before you start building this module. After that, you can start building it by executing:
+Kuman is written on [Typescript](https://typescriptlang.org) from the ground-up and must install the `tsc` compiler first before you start building this module. After that, you can start building it by executing:
 ```bash
 $ npm build-dev
 ```
@@ -127,4 +128,4 @@ $ npm build-dev
 5. Create a new Pull Request
 
 ## Copyright
-- &copy; 2018 Ned Palacios (nedpals)
+- &copy; 2018-2019 Ned Palacios (nedpals)
