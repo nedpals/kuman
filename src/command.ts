@@ -3,7 +3,7 @@ export interface CommandAttributes {
     arguments?: number,
     description?: string,
     shorthand?: string
-    requires?: string | Array<string>
+    requires?: Array<string>
 };
 
 /**
