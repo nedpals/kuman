@@ -28,6 +28,7 @@ export function runCli(argv: ARGVArray, state: any) {
     let errorMsg = "";
     let showHelp = false;
 
+    const help = () => generateHelp(state);
     const { options, args } = state;
     const getCmd = (name: string) => getCommand(name, state);
     const currentCommand = getCmd(args.command);
@@ -39,7 +40,7 @@ export function runCli(argv: ARGVArray, state: any) {
                 console.error(errorMsg);
 
             if (showHelp)
-                help()
+                help();
         }
     };
 
@@ -69,44 +70,33 @@ export function runCli(argv: ARGVArray, state: any) {
         }
     });
 
-            if (option.asCommand === true) {
-                option.cb(args.options[optName]);
-                showHelp = false;
-            } else {
-                args.options[optName] = typeof option.cb !== "undefined" ? option.cb(args.options[optName]) : '';
+    if (typeof currentCommand === "undefined") {
+        if (typeof(args.command) !== "undefined") {
+            errorMsg = "Command not found";
             }
-        }
-    });
 
-    if (typeof currentCommand !== "undefined" && currentCommand.arguments !== 0) {
+        return;
+        }
+
+    if (currentCommand.arguments !== 0) {
         state.setArgs({...args, _args: args.unknown.slice(0, currentCommand.arguments) });
     }
 
-    if (typeof currentCommand !== "undefined" && currentCommand.hasOwnProperty('requires')) {
-        if (Array.isArray(currentCommand.requires)) {
+    if (currentCommand.hasOwnProperty('requires') && Array.isArray(currentCommand.requires)) {
             currentCommand.requires.map(option => {
                 if (typeof getOption(option, state) === "undefined") {
                     errorMsg = "Missing option: " + option;
                     execute = false;
                 }
             });
-        } else {
-            if (typeof getOption(currentCommand.requires, state) === "undefined") {
-                errorMsg = "Missing option: " + currentCommand.requires;
-                execute = false;
-            }
-        }
     }
 
-    if (typeof currentCommand !== "undefined" && args.unknown.length !== currentCommand.arguments) {
+    if (args.unknown.length !== currentCommand.arguments) {
         errorMsg = `Missing arguments: expected ${currentCommand.arguments}, got ${args.unknown.length}.`;
         execute = false;
         showHelp = true;
     }
 
-    if (typeof(currentCommand) === "undefined" && typeof(args.command) !== "undefined")
-        errorMsg = "Command not found";
-    
     if (argv.length === 0) {
         showHelp = true;
         execute = false;
