@@ -29,8 +29,7 @@ export const cliInfo: CLIInfo = {
  */
 export const CLIState = function () : void {
     this.commands = [];
-    this.shorthandOptions = {};
-    this.options = {};
+    this.options = [];
     this.args = {};
     this.setArgs = (obj: object) => {
         this.args = obj;
@@ -65,8 +64,7 @@ export function runCli(argv: Array<string>, state: any) {
     let errorMsg = "";
     let showHelp = false;
 
-    const help = () => generateHelp(state, cliInfo);
-    const { options, args, shorthandOptions } = state;
+    const { options, args } = state;
     const getCmd = (name: string) => getCommand(name, state);
     const currentCommand = getCmd(args.command);
     const runCommand = () => {
@@ -83,43 +81,27 @@ export function runCli(argv: Array<string>, state: any) {
 
         event.emit("showVersion");
     }, {
-        shorthand: {
-            value: "v",
-            uppercase: false
-        },
+        shorthand: "v",
         asCommand: true,
         description: "Displays CLI version"
     }, state);
 
-    add("option", "help", () => help(), {
-        shorthand: {
-            value: "h",
-            uppercase: false
-        },
+        shorthand: "h",
         asCommand: true,
         description: "Displays the list of commands and options"
     }, state);
 
-    // Execute shorthand
-    Object.keys(shorthandOptions).map(optName => {
-        let currentArgOption = args.options[optName];
-
-        if (typeof currentArgOption !== "undefined") {
-            let option = getOption(optName, state);
-
+    Object.keys(state.args.options).map(opt => {
+        let option = getOption(opt, state);
+        if (typeof option !== "undefined") {
             if (option.asCommand === true) {
-                option.cb(currentArgOption);
+                option.cb(state.args.options[opt]);
+                showHelp = false;
             } else {
-                args.options[shorthandOptions[optName]] = typeof option.cb !== "undefined" ? option.cb(currentArgOption) : '';
-
-                delete args.options[optName];
+                state.args.options[opt] = typeof option.cb !== "undefined" ? option.cb(state.args.options[opt]) : '';
             }
         }
-    })
-
-    Object.keys(options).map(optName => {
-        if (typeof args.options[optName] !== "undefined") {
-            let option = getOption(optName, state);
+    });
 
             if (option.asCommand === true) {
                 option.cb(args.options[optName]);
@@ -179,11 +161,5 @@ function getCommand(name: string, state: any) {
 }
 
 function getOption(name: string, state: any) {
-    const { options, shorthandOptions } = state;
-    let foundOption = Object.keys(shorthandOptions).map(optionName => {
-            const currentShorthand = shorthandOptions[optionName];
-            return optionName === name && options[currentShorthand];
-        }).concat(Object.keys(options).map(optionName => optionName === name && options[optionName])).filter(el => el !== false)[0];
-
-    return foundOption;
+    return state.options.find(option => option.shorthand === name || option.name === name);
 }
