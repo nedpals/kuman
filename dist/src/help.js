@@ -1,32 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const event = require("./events");
 /**
  * Generate help from the CLI State
  * @param state CLI state to be use
  */
-function generateHelp(state, info) {
-    const cli_name = info.name.replace(" ", "_").toLowerCase();
-    console.log(info.name);
-    console.log(info.description);
-    console.log(`\nUsage: ` + (info.usage || `${cli_name} [options]`));
+function generateHelp(state) {
+    event.emit("showHelp");
     console.log("\nOPTIONS:\n");
-    Object.keys(state.options).sort((a, b) => {
-        if (a.length > b.length)
-            return 0;
-        if (a.length < b.length)
-            return 1;
-    }).map(option => {
-        let name = `--${option}`;
-        console.log(`${name.padEnd(30, " ")}${state.options[option].description}`);
-    });
-    Object.keys(state.shorthandOptions).map(option => {
-        let shorthand = `-${option}`;
-        console.log(`${shorthand.padEnd(30, " ")}Shortcut of '${state.shorthandOptions[option]}'`);
+    let optionShorthands = state.options.map(o => o.shorthand).sort();
+    state.options.sort().map((option, i) => {
+        let name = `--${option.name}${typeof optionShorthands[i] !== "undefined" ? (', -' + optionShorthands[i]) : ''}`;
+        console.log(`${name.padEnd(30, " ")}${option.description}`);
     });
     console.log("\nCOMMANDS:\n");
     state.commands.map(command => {
         let name = `${command.name}`;
-        let description = command.hasOwnProperty('parent') ? `Redirects to '${command.parent}' command.` : command.description;
+        let description = command.hasOwnProperty('parent') ? `Alias of '${command.parent}' command.` : command.description;
         console.log(name.padEnd(30, " ") + description);
     });
 }

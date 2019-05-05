@@ -1,9 +1,9 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Parses commands, options, and unknown arguments from the ARGV array.
  * @param argv ARGV to be used
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 function parseArgv(argv) {
     if (argv.length === 0)
         return { command: '', options: {}, unknown: [] };
