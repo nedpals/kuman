@@ -1,8 +1,6 @@
 # Kuman (Alpha)
 Simple, Express-style CLI framework for Node. Create CLI programs written in Typescript or in Javascript with no additional dependencies.
 
-<!-- ### Visit the new docs [here](https://nedpals.gitbook.io/kuman/). -->
-
 ## Install
 ### NPM
 ```bash
@@ -81,28 +79,8 @@ cli.on("showVersion", () => {
 });
 ```
 
-
-### `--help` Generation
-Kuman can auto-generate the list everytime you add a command or option.
-```
-$ node test.js --help
-My CLI app
-Just a normal command line program
-
-Usage: my_cli app [options]
-
-OPTIONS:
-
---yolo, -A                    Prints the meaning of YOLO.
---debug, -D                   Debug information
---age, -h                     Age option
---version, -v                 Displays CLI version
---help                        Displays the list of commands and options
-
-COMMANDS:
-
-print                         Prints a name
-```
+## Documentation
+Visit the new docs [here](DOCUMENTATION.md).
 
 ## Development 
 ### Build
@@ -117,7 +95,7 @@ $ npm build-dev
 - [ ] Middleware / Plugin Support(?)
 - [x] JSDoc comments
 - [x] `--help` generation
-- [ ] Error handling
+- [x] Error handling
 - [x] Tests
 
 ### Contribute
