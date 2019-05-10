@@ -1,5 +1,5 @@
 import parseArgv, { ARGVArray } from "./parser";
-import * as event from "./events";
+import { throwError, event } from "./helpers";
 import { addOption } from "./option";
 import generateHelp from "./help";
 
@@ -24,38 +24,19 @@ export function runCli(argv: ARGVArray, state: any) {
     state.setArgs({ ...state.args, ...parseArgv(argv) });
 
     let execute = true;
-    let errorMsg = "";
     let showHelp = false;
 
-    const help = () => generateHelp(state);
-    const { options, args } = state;
-    const getCmd = (name: string) => getCommand(name, state);
-    const currentCommand = getCmd(args.command);
+    const currentCommand = getCommand(state.args.command, state);
     const runCommand = () => {
         if (execute && typeof(currentCommand) !== "undefined") {
             currentCommand.run();
         } else {
-            if (errorMsg.length !== 0)
-                console.error(errorMsg);
-
             if (showHelp)
-                help();
+                generateHelp(state);
         }
     };
 
-    addOption("version", () => {
-        event.emit("showVersion");
-    }, {
-        shorthand: "v",
-        asCommand: true,
-        description: "Displays CLI version"
-    }, state);
-
-    addOption("help", () => help(), {
-        shorthand: "h",
-        asCommand: true,
-        description: "Displays the list of commands and options"
-    }, state);
+    initializeCLI(state);
 
     Object.keys(state.args.options).map(opt => {
         let option = getOption(opt, state);
@@ -70,30 +51,45 @@ export function runCli(argv: ARGVArray, state: any) {
     });
 
     if (typeof currentCommand === "undefined") {
-        if (typeof(args.command) !== "undefined") {
-            errorMsg = "Command not found";
+        if (typeof(state.args.command) !== "undefined") {
+            throwError({
+                code: "CLI_ERR_CMD_NOT_FOUND",
+                message: "Command not found",
+                showStackTrace: false
+            });
         }
 
         return;
     }
 
     if (currentCommand.arguments !== 0) {
-        state.setArgs({...args, _args: args.unknown.slice(0, currentCommand.arguments) });
+        state.setArgs({...state.args, args: state.args.unknown.slice(0, currentCommand.arguments) });
     }
 
     if (currentCommand.hasOwnProperty('requires') && Array.isArray(currentCommand.requires)) {
         currentCommand.requires.map(option => {
             if (typeof getOption(option, state) === "undefined") {
-                errorMsg = "Missing option: " + option;
-                execute = false;
+                throwError({
+                    code: "CLI_ERR_MISSING_OPTION",
+                    message: "Missing option: " + option
+                }, () => {
+                    execute = false;
+                });
             }
         });
     }
 
-    if (args.unknown.length !== currentCommand.arguments) {
-        errorMsg = `Missing arguments: expected ${currentCommand.arguments}, got ${args.unknown.length}.`;
-        execute = false;
-        showHelp = true;
+    console.log(currentCommand);
+
+    if (state.args.unknown.length !== currentCommand.arguments) {
+        throwError({
+            code: "CLI_ERR_MISSING_ARGS",
+            message: `Missing arguments: expected ${currentCommand.arguments}, got ${state.args.unknown.length}.`,
+            throw: false
+        }, () => {
+            execute = false;
+            showHelp = true;
+        });
     }
 
     if (argv.length === 0) {
@@ -101,11 +97,34 @@ export function runCli(argv: ARGVArray, state: any) {
         execute = false;
     }
 
-    if ((typeof(args.command) === "undefined" && state.options.length === 0))
-        event.emit("error");
+    if (typeof(state.args.command) === "undefined" && Object.keys(state.args.options).length === 0) {
+        throwError({
+            code: "CLI_ERR_NO_ARGS",
+            message: "No arguments found.",
+            throw: true
+        });
+    }
 
     runCommand();
 };
+
+function initializeCLI(state: any) {
+    addOption("version", () => {
+        event.emit("showVersion");
+    }, {
+        shorthand: "v",
+        asCommand: true,
+        description: "Displays CLI version"
+    }, state);
+
+    addOption("help", () => generateHelp(state), {
+        shorthand: "h",
+        asCommand: true,
+        description: "Displays the list of commands and options"
+    }, state);
+
+    event.emit("init");
+} 
 
 function getCommand(name: string, state: any) {
     return state.commands.find(command => command.shorthand === name || command.name === name);

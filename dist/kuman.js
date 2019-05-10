@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cli_1 = require("./src/cli");
 const command_1 = require("./src/command");
 const option_1 = require("./src/option");
-const events = require("./src/events");
+const events = require("./src/helpers/event");
 /**
  * Initialize a new CLI instance.
  */

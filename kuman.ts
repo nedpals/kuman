@@ -1,7 +1,7 @@
 import { CLIState, runCli } from "./src/cli";
 import { addCommand, CommandCallback, CommandAttributes } from "./src/command";
 import { addOption, OptionCallback, OptionAttributes } from "./src/option";
-import * as events from "./src/events";
+import * as events from "./src/helpers/event";
 import { ARGVArray } from "./src/parser";
 
 /**

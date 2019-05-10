@@ -1,4 +1,4 @@
-import * as event from "./events";
+import { event } from "./helpers";
 
 /**
  * Generate help from the CLI State

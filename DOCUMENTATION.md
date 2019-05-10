@@ -118,6 +118,7 @@ cli.option("yolo", (value) => {
 |options    |`object`| Command options.|
 
 options object:
+
 | Option  |   Type  | Default | Description |
 |---------|---------|---------|-------------|
 |description|`string`|none|Description for the command. Useful if you are showing the information on the `help` screen.|

@@ -8,8 +8,8 @@ function on(eventName: CLIEvent, listener: (args: any) => void) {
     emitter.on(eventName, listener);
 }
 
-function emit(eventName: CLIEvent) {
-    emitter.emit(eventName);
+function emit(eventName: CLIEvent, ...args) {
+    emitter.emit(eventName, ...args);
 }
 
 export {

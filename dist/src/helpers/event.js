@@ -7,7 +7,7 @@ function on(eventName, listener) {
     emitter.on(eventName, listener);
 }
 exports.on = on;
-function emit(eventName) {
-    emitter.emit(eventName);
+function emit(eventName, ...args) {
+    emitter.emit(eventName, ...args);
 }
 exports.emit = emit;

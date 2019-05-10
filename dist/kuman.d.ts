@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { CommandCallback, CommandAttributes } from "./src/command";
 import { OptionCallback, OptionAttributes } from "./src/option";
-import * as events from "./src/events";
+import * as events from "./src/helpers/event";
 /**
  * Initialize a new CLI instance.
  */

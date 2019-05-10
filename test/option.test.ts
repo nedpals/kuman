@@ -1,5 +1,5 @@
 describe("test options", () => {
-    test("set option", () => {
+    it("sets an option", () => {
         console.log("TODO: Set option test");
     });
 });

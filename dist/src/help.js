@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const event = require("./events");
+const helpers_1 = require("./helpers");
 /**
  * Generate help from the CLI State
  * @param state CLI state to be use
  */
 function generateHelp(state) {
-    event.emit("showHelp");
+    helpers_1.event.emit("showHelp");
     console.log("\nOPTIONS:\n");
     let optionShorthands = state.options.map(o => o.shorthand).sort();
     state.options.sort().map((option, i) => {

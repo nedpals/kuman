@@ -1,7 +1,7 @@
 import parseArgv from "../src/parser";
  
 describe("parse argv array", () => {
-    test("just parse", () => {
+    it("parses", () => {
         expect(parseArgv(["test", "--hello=world", "-F", "hey", "unkn"]))
             .toEqual({
                 command: "test",
@@ -13,7 +13,7 @@ describe("parse argv array", () => {
             });
     });
     
-    test("parsing it without command", () => {
+    it("parses without command", () => {
         expect(parseArgv(["--hello"]))
             .toEqual({
                 command: undefined,
@@ -24,7 +24,7 @@ describe("parse argv array", () => {
             })
     });
     
-    test("parsing option value with equals", () => {
+    it("parses option value with equals", () => {
         expect(parseArgv(["--hello=world"]))
             .toEqual({
                 command: undefined,
@@ -35,7 +35,7 @@ describe("parse argv array", () => {
             })
     });
     
-    test("parsing set of option values without equals", () => {
+    it("parses a set of option values without equals", () => {
         expect(parseArgv(["--hello", "world", "-F", "24", "--foo", "bar,net,que"]))
             .toEqual({
                 command: undefined,
@@ -48,7 +48,7 @@ describe("parse argv array", () => {
             })
     });
     
-    test("parsing comma-separated option value into an array of values", () => {
+    it("parses comma-separated option values into an array of values", () => {
         expect(parseArgv(["--hello=world,foo,bar"]))
             .toEqual({
                 command: undefined,
