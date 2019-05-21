@@ -35,6 +35,7 @@ cli.command("hello", ({ args }) => {
 |options    |`object`| Command options.|
 
 options object:
+
 | Option  |   Type  | Default | Description |
 |---------|---------|---------|-------------|
 |arguments|`integer`|0|Number of arguments the command will use. |
