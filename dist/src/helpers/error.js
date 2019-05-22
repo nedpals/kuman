@@ -17,6 +17,7 @@ function throwError(errObj, cb) {
         cb(newError());
     if (event_1.emitter.eventNames().includes("error"))
         event_1.emit("error", newError());
-    throw newError();
+    if (errObj.throw)
+        throw newError();
 }
 exports.default = throwError;

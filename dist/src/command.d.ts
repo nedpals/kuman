@@ -1,4 +1,4 @@
-export declare type CommandCallback = (args: any) => void;
+export declare type CommandCallback = (args: any, helpers: any) => void;
 export interface CommandAttributes {
     arguments?: number;
     description?: string;

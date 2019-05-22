@@ -33,6 +33,7 @@ function runCli(argv, state) {
             if (showHelp)
                 help_1.default(state);
         }
+        helpers_1.event.emit("destroy");
     };
     initializeCLI(state);
     Object.keys(state.args.options).map(opt => {
@@ -41,6 +42,7 @@ function runCli(argv, state) {
             if (option.asCommand === true) {
                 option.cb(state.args.options[opt]);
                 showHelp = false;
+                helpers_1.event.emit("destroy");
             }
             else {
                 state.args.options[opt] = typeof option.cb !== "undefined" ? option.cb(state.args.options[opt]) : '';
@@ -53,6 +55,8 @@ function runCli(argv, state) {
                 code: "CLI_ERR_CMD_NOT_FOUND",
                 message: "Command not found",
                 showStackTrace: false
+            }, (err) => {
+                console.log(`${err.name}: ${err.message}`);
             });
         }
         return;
@@ -72,7 +76,6 @@ function runCli(argv, state) {
             }
         });
     }
-    console.log(currentCommand);
     if (state.args.unknown.length !== currentCommand.arguments) {
         helpers_1.throwError({
             code: "CLI_ERR_MISSING_ARGS",
@@ -95,6 +98,9 @@ function runCli(argv, state) {
         });
     }
     runCommand();
+    process.on("SIGINT", () => {
+        helpers_1.event.emit("destroy");
+    });
 }
 exports.runCli = runCli;
 ;
