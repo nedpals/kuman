@@ -8,11 +8,12 @@ export interface OptionAttributes {
 }
 
 /**
+ * Adds a new CLI option/flag to the instance
  * 
- * @param name Name of the option
- * @param cb Callback of the option
- * @param options Additional settings to the option
- * @param state State to be used
+ * @param name Name of the option.
+ * @param cb Option callback.
+ * @param options Additional settings to the option.
+ * @param state CLI Instance/State to be used/
  */
 export function addOption(name: string, cb: OptionCallback, options: OptionAttributes, state: any) {
     const option: OptionAttributes = {
