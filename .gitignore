@@ -80,3 +80,5 @@ typings/
 .dynamodb/
 
 test.cli.*
+
+src/plugin.ts
