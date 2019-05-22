@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 
-type CLIEvent = "init" | "destroy" | "log" | "showHelp" | "showVersion" | "error";
+type CLIEvent = "init" | "destroy" | "showHelp" | "showVersion" | "error";
 
 const emitter = new EventEmitter();
 
