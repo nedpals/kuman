@@ -1,6 +1,6 @@
 {
   "name": "kuman",
-  "version": "0.0.6.1",
+  "version": "0.0.6-1",
   "description": "Simple, Express-style CLI framework for Node",
   "main": "./dist/kuman.js",
   "types": "./dist/kuman.d.ts",
