@@ -1,4 +1,6 @@
-export type CommandCallback = (args: any) => void;
+import * as CLIHelpers from "./helpers";
+
+export type CommandCallback = (args: any, helpers: any) => void;
 export interface CommandAttributes {
     arguments?: number,
     description?: string,
@@ -23,7 +25,7 @@ export function addCommand(name: string, cb: CommandCallback, options: CommandAt
   
     state.commands.push({
         name,
-        run: (args: any = state.args) => cb(args),
+        run: (args: object = state.args, helpers: any = CLIHelpers) => cb(args, helpers),
         ...commandAttributes
     });
 };
